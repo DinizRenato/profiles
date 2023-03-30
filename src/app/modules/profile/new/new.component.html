@@ -1,0 +1,120 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card card-primary">
+      <div class="card-header">
+        <h3 class="card-title">Quick Example</h3>
+      </div>
+      <div class="card-body">
+
+        <form [formGroup]="profileForm" (ngSubmit)="createProfile()">
+
+          <div class="row">
+
+
+            <div class="col-md-6 col-sm-12">
+
+              <div class="form-group">
+                <label>First name:</label>
+                <app-input [control]="firstName" placeholder="Enter first name"></app-input>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group">
+                <label>Last name:</label>
+                <app-input [control]="lastName" placeholder="Enter last name"></app-input>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-3 col-sm-12">
+              <div class="form-group">
+                <label>Date of birth:</label>
+                <input type="date" class="form-control" max="{{today | date: 'yyyy-MM-dd' }}" [formControl]="dob"
+                  placeholder="Enter date of birth">
+              </div>
+            </div>
+
+
+            <div class="col-md-3 col-sm-12">
+              <div class="form-group">
+                <label>Phone number:</label>
+                <app-input [control]="phone" format="(000)000-0000" placeholder="Enter phone number"></app-input>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group">
+                <label>Job title:</label>
+                <app-input [control]="jobTitle" placeholder="Enter job title"></app-input>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-4 col-sm-12">
+              <div class="form-group">
+                <label>Street:</label>
+                <input type="text" class="form-control" [formControl]="street" placeholder="Enter street">
+              </div>
+            </div>
+
+            <div class="col-md-4 col-sm-12">
+              <div class="form-group">
+                <label>City:</label><br />
+                <input class="form-control" [formControl]="city" list="dataListCities" #searchBox id="search-box"
+                  (keyup)="search(searchBox.value)" placeholder="Search for your city"
+                  (change)="stateValue($any($event.target).value)" />
+
+                <datalist id="dataListCities">
+                  <option *ngFor="let city of (cities$ | async) as cities" value="{{ city.city }}">
+                    {{ city.city }}
+                  </option>
+                </datalist>
+
+              </div>
+            </div>
+
+            <div class="col-md-4 col-sm-12">
+              <div class="form-group">
+                <label>State:</label>
+                <app-input [control]="state" placeholder="Select a city to show the state"
+                  [readonly]="true"></app-input>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-group">
+            <label>Profile photo:</label>
+            <input type="file" accept="image" (change)="fileChangeEvent($event)" placeholder="Enter profile photo">
+
+            <div class="row" style="margin-top: 5%;">
+              <div class="text-center col-md-8">
+                <h5>Crop Image</h5>
+                <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                  [hideResizeSquares]="true" [aspectRatio]="4 / 4" [resizeToWidth]="128" [resizeToHeight]="128"
+                  format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+                  (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()"></image-cropper>
+              </div>
+              <div class="text-center col-md-4">
+                <h5>Preview</h5>
+                <img [src]="croppedImage" />
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" [disabled]="profileForm.invalid">Submit</button>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
